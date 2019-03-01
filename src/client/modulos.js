@@ -48,6 +48,28 @@ const modulos = [
         icon: 'fa fa-home'
       }
     ]
+  },
+  {
+    id: 'cotp',
+    name: 'COTP',
+    color: '#1CC43A',
+    menu: [
+      {
+        text: 'Início',
+        href: '/cotp',
+        icon: 'fa fa-home'
+      },
+      {
+        text: 'Dependências',
+        href: '/cotp/dependencias',
+        icon: 'fa fa-address-card'
+      },
+      {
+        text: 'Monitorias',
+        href: '/cotp/monitorias',
+        icon: 'fa fa-book'
+      }
+    ]
   }
 ]
 
