@@ -15,11 +15,16 @@ Router.onRouteChangeError = () => window.Pace.stop()
 class Main extends Component {
   componentDidMount() {
     //Se não estiver autenticado, redireciona para a tela de login
+
+    //Router.push('/inicio')
     if (!Auth.loggedIn()) {
-      Router.push('/login')
+      Router.push('/inicio')
     }
     //Se um módulo não foi escolhido, redireciona para tela de seleção de módulo. Ocorre a cada login.
-    if (!ModuleService.isModuleChosen() && Auth.loggedIn()) {
+    if (
+      !ModuleService.isModuleChosen() &&
+      Auth.loggedIn() /*opção de manter conectado estiver selecionado*/
+    ) {
       Router.push('/modulos')
     }
   }
