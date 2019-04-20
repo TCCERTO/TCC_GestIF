@@ -79,6 +79,18 @@ export default class Login extends Component {
               />
             </a>
           </Link>
+          <br />
+          <Link href="/inicio">
+            <a>
+              <Button
+                icon="clipboard"
+                color="blue"
+                labelPosition="left"
+                content="Página Inicial"
+                fluid
+              />
+            </a>
+          </Link>
         </div>
       </div>
     )
