@@ -27,15 +27,6 @@ export default () => (
           <button class="ui button">
             <h3>Monitorias</h3>
           </button>
-          <button class="ui button">
-            <h3>Botão 3</h3>
-          </button>
-          <button class="ui button">
-            <h3>Botão 4</h3>
-          </button>
-          <button class="ui button">
-            <h3>Botão 5</h3>
-          </button>
         </div>
         <br />
         <br />
@@ -75,11 +66,6 @@ export default () => (
             </div>
           </div>
         </div>
-        <button class="ui secondary button">Okay</button>
-        <button class="ui button">Cancel</button>
-        <br />
-        <br />
-        <button class="ui green button">Green</button>
         <br />
       </section>
     </div>
