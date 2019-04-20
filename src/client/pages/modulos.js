@@ -22,7 +22,7 @@ const ModuleCube = ({ name, color, id }) => (
 class Modulos extends React.Component {
   constructor() {
     super()
-    this.state = { roles: ['csti', 'direcao', 'cotp'] }
+    this.state = { roles: [] }
   }
 
   componentDidMount() {
@@ -40,15 +40,15 @@ class Modulos extends React.Component {
           <div className="cubes">
             {this.state.roles &&
               modulos.map(m => {
-                //if (this.state.roles.includes(m.id))
-                return (
-                  <ModuleCube
-                    key={m.id + m.name}
-                    name={m.name}
-                    id={m.id}
-                    color={m.color}
-                  />
-                )
+                if (this.state.roles.includes(m.id))
+                  return (
+                    <ModuleCube
+                      key={m.id + m.name}
+                      name={m.name}
+                      id={m.id}
+                      color={m.color}
+                    />
+                  )
               })}
           </div>
         </div>
