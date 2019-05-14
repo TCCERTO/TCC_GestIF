@@ -13,7 +13,7 @@ class Home extends Component {
       Router.push('/modulos')
     }
     if (!Auth.loggedIn()) {
-      Router.push('/login')
+      Router.push('/inicio')
     }
   }
   render() {

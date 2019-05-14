@@ -18,13 +18,11 @@ export default () => (
         </ol>
       </section>
       <section className="content">
-        <h1>Dependências</h1>
+        <h1>Orientação Pedagógica</h1>
         <br />
-        <button class="ui secondary button">Okay</button>
-        <button class="ui button">Cancel</button>
-        <br />
-        <br />
-        <button class="ui green button">Green</button>
+        <button class="ui black button"><h3>Dependências</h3></button>
+        <button class="ui black button"><h3>Monitorias</h3></button>
+        
       </section>
     </div>
   </Page>

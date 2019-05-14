@@ -27,12 +27,14 @@
     "jsonwebtoken": "^8.2.0",
     "lodash": "^4.17.5",
     "moment": "^2.22.2",
+    "mongodb": "^3.2.3",
     "mongoose": "^5.0.10",
     "morgan": "^1.9.0",
     "next": "^6.0.3",
     "react": "^16.2.0",
     "react-chartjs-2": "^2.7.2",
     "react-dom": "^16.2.0",
+    "react-router-dom": "^5.0.0",
     "semantic-ui-react": "^0.80.2"
   },
   "devDependencies": {
@@ -48,5 +50,19 @@
     "husky": "^0.14.3",
     "lint-staged": "^7.1.2",
     "prettier": "^1.11.1"
-  }
+  },
+  "description": "> Sistema de gestão administrativa para o Campus Arraial do Cabo",
+  "version": "1.0.0",
+  "main": "codigo_menu.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TCCERTO/GestIF_TCC.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TCCERTO/GestIF_TCC/issues"
+  },
+  "homepage": "https://github.com/TCCERTO/GestIF_TCC#readme"
 }

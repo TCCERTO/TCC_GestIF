@@ -11,6 +11,22 @@ import api from './server/api'
 import dotenv from 'dotenv'
 dotenv.config()
 
+const MongoClient = require('mongodb').MongoClient
+
+// replace the uri string with your connection string.
+const uri =
+  'mongodb+srv://tcc:bmrtcc10@cluster0-kciz5.mongodb.net/test?retryWrites=true'
+MongoClient.connect(uri, function(err, client) {
+  if (err) {
+    console.log('Error occurred while connecting to MongoDB Atlas...\n', err)
+  }
+  console.log('Connected...')
+  const collection = client.db('gestif').collection('users')
+  // perform actions on the collection object
+  
+  client.close()
+})
+
 const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
 const MONGO_URL = dev

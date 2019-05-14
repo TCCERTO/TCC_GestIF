@@ -7,6 +7,8 @@ import reports from './reports'
 import reportar from './reports/reportar'
 import logs from './logs'
 import install from './install'
+import alunos from './alunos'
+import professores from './professores'
 
 const router = Router()
 
@@ -18,5 +20,7 @@ router.use('/reportar', reportar)
 router.use('/reports', withToken, reports)
 router.use('/logs', withToken, logs)
 router.use('/install', install)
+router.use('/alunos', withToken, alunos)
+router.use('/professores', withToken, professores)
 
 export default router

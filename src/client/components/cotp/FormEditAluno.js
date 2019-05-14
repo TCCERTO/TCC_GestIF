@@ -13,12 +13,15 @@ class FormEditUser extends React.Component {
     this.handleSetorChange = this.handleSetorChange.bind(this)
   }
   componentDidMount() {
-    Auth.fetch('/api/users/' + this.props.user, { method: 'get' }).then(
+    Auth.fetch('/api/alunos/' + this.props.user, { method: 'get' }).then(
       data => {
         this.setState({
           form: {
             name: data.name,
             email: data.email,
+            disciplinas: data.disciplinas,
+            periodo: data.periodo,
+            turno: data.turno,
             roles: data.roles
           },
           loading: false
@@ -71,6 +74,39 @@ class FormEditUser extends React.Component {
           />
         </Form.Field>
         <Form.Field>
+          <label>Disciplinas</label>
+          <Dropdown
+            placeholder="Disciplinas..."
+            onChange={this.handleSetorChange}
+            name="disciplina"
+            selection
+            multiple
+            fluid
+            required
+            options={disciplinas.map(d => {
+              return { key: d.id, value: d.id, text: d.name }
+            })}
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>Período</label>
+          <input
+            placeholder="Período..."
+            name="periodo"
+            required
+            onChange={this.handleChange}
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>Turno</label>
+          <input
+            placeholder="Turno..."
+            name="turno"
+            required
+            onChange={this.handleChange}
+          />
+        </Form.Field>
+        <Form.Field>
           <label>Setor</label>
           <Dropdown
             placeholder="Setor..."
@@ -96,7 +132,7 @@ class FormEditUser extends React.Component {
           />
         </Form.Field>
         <Button type="submit" secondary fluid>
-          Atualizar usuário
+          Atualizar aluno
         </Button>
       </Form>
     )

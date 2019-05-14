@@ -239,7 +239,7 @@ export default () => (
           <h1 class="ui inverted header" style={{ fontSize: 57 }}>
             GestIF
           </h1>
-          <h2 style={{ fontSize: 30 }}>O sistema</h2>
+          <h2 style={{ fontSize: 27 }}>O sistema</h2>
           <br />
           <br />
           <br />
