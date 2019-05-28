@@ -32,7 +32,7 @@ class Alunos extends React.Component {
     }
   }
   componentDidMount() {
-    Auth.fetch('/api/alunos').then(data => {
+    Auth.fetch('/api/users/alunosFind').then(data => {
       this.setState({ userList: data })
     })
   }
@@ -43,7 +43,7 @@ class Alunos extends React.Component {
   confirmDeleteUser() {
     this.setState({ deletaUser: false, userToDelete: {} })
     const { id } = this.state.userToDelete
-    Auth.fetch('/api/alunos', {
+    Auth.fetch('/api/users/alunosDel', {
       method: 'DELETE',
       body: JSON.stringify({ id })
     }).then(data => {
@@ -62,7 +62,7 @@ class Alunos extends React.Component {
     })
   }
   onEditSubmit(data, id) {
-    Auth.fetch('/api/alunos/' + id, {
+    Auth.fetch('/api/users/' + id, {
       method: 'PATCH',
       body: JSON.stringify(data)
     }).then(() => {
@@ -79,7 +79,7 @@ class Alunos extends React.Component {
         { ...this.state.data, joined: 'Agora mesmo', _id: Date.now() }
       ]
     })
-    Auth.fetch('/api/alunos/', {
+    Auth.fetch('/api/users/alunosCad', {
       method: 'POST',
       body: JSON.stringify(this.state.data)
     }).then(() => {
@@ -104,6 +104,11 @@ class Alunos extends React.Component {
                 </a>
               </li>
               <li>
+                <a href="../dependencias">
+                  <i className="fa fa-dashboard" /> Dependências
+                </a>
+              </li>
+              <li>
                 <a href="./alunos">Alunos</a>
               </li>
             </ol>
@@ -119,7 +124,7 @@ class Alunos extends React.Component {
                         : 'Editar aluno'}
                     </h3>
                   </div>
-                  <div className="box-body"> 
+                  <div className="box-body">
                     <Message
                       hidden={!this.state.created}
                       positive
@@ -153,7 +158,7 @@ class Alunos extends React.Component {
                         user={this.props.url.query.user}
                         onSubmit={this.onEditSubmit.bind(this)}
                       />
-                    )) || <FormAddAluno onSubmit={this.onSubmit.bind(this)}  />}
+                    )) || <FormAddAluno onSubmit={this.onSubmit.bind(this)} />}
                   </div>
                 </div>
                 {!this.props.url.query.user && (
@@ -162,7 +167,7 @@ class Alunos extends React.Component {
                       <h3>Lista de alunos</h3>
                     </div>
                     <div className="box-body">
-                    <TableListaAlunos
+                      <TableListaAlunos
                         alunos={this.state.userList}
                         deleteUser={this.deleteUser.bind(this)}
                       />

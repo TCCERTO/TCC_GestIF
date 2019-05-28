@@ -13,6 +13,4 @@ export const setLink = (id, name) => {
   return
 }
 
-
-export const getLinkMenu = link =>
-  links.filter(obj => obj.id === link)[0].menu
+export const getLinkMenu = link => links.filter(obj => obj.id === link)[0].menu

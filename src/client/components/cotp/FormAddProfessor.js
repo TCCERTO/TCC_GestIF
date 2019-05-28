@@ -65,7 +65,7 @@ class FormAddProfessor extends React.Component {
         </Form.Field>
         <Form.Field>
           <label>Disciplina</label>
-            <input
+          <input
             placeholder="Disciplina..."
             name="disciplina"
             required

@@ -9,7 +9,7 @@ import helmet from 'helmet'
 import api from './server/api'
 
 import dotenv from 'dotenv'
-dotenv.config()
+dotenv.config() //esse é o bonitinho que acessa o .env!!!
 
 const MongoClient = require('mongodb').MongoClient
 
@@ -23,7 +23,6 @@ MongoClient.connect(uri, function(err, client) {
   console.log('Connected...')
   const collection = client.db('gestif').collection('users')
   // perform actions on the collection object
-  
   client.close()
 })
 
@@ -45,7 +44,7 @@ const server = express()
 
 server.set('secret', process.env.SECRET)
 server.use(bodyParser.urlencoded({ extended: false }))
-server.use(morgan('dev'))
+server.use(morgan('dev')) // esse mostra os processos no prompt (get, post)
 server.use(bodyParser.json())
 server.use(helmet()) // adiciona headers de segurança às rotas
 if (!dev) server.use(compression()) // adiciona compressão gzip a todos os requests

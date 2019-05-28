@@ -32,7 +32,7 @@ class Usuarios extends React.Component {
     }
   }
   componentDidMount() {
-    Auth.fetch('/api/professores').then(data => {
+    Auth.fetch('/api/users/professoresFind').then(data => {
       this.setState({ userList: data })
     })
   }
@@ -43,7 +43,7 @@ class Usuarios extends React.Component {
   confirmDeleteUser() {
     this.setState({ deletaUser: false, userToDelete: {} })
     const { id } = this.state.userToDelete
-    Auth.fetch('/api/professores', {
+    Auth.fetch('/api/users/professoresDel', {
       method: 'DELETE',
       body: JSON.stringify({ id })
     }).then(data => {
@@ -62,7 +62,7 @@ class Usuarios extends React.Component {
     })
   }
   onEditSubmit(data, id) {
-    Auth.fetch('/api/professores/' + id, {
+    Auth.fetch('/api/users/' + id, {
       method: 'PATCH',
       body: JSON.stringify(data)
     }).then(() => {
@@ -79,7 +79,7 @@ class Usuarios extends React.Component {
         { ...this.state.data, joined: 'Agora mesmo', _id: Date.now() }
       ]
     })
-    Auth.fetch('/api/professores/', {
+    Auth.fetch('/api/users/professoresCad', {
       method: 'POST',
       body: JSON.stringify(this.state.data)
     }).then(() => {
@@ -101,6 +101,11 @@ class Usuarios extends React.Component {
               <li>
                 <a href="/">
                   <i className="fa fa-dashboard" /> Iní­cio
+                </a>
+              </li>
+              <li>
+                <a href="../dependencias">
+                  <i className="fa fa-dashboard" /> Dependências
                 </a>
               </li>
               <li>
@@ -153,7 +158,9 @@ class Usuarios extends React.Component {
                         user={this.props.url.query.user}
                         onSubmit={this.onEditSubmit.bind(this)}
                       />
-                    )) || <FormAddProfessor onSubmit={this.onSubmit.bind(this)} />}
+                    )) || (
+                      <FormAddProfessor onSubmit={this.onSubmit.bind(this)} />
+                    )}
                   </div>
                 </div>
                 {!this.props.url.query.user && (

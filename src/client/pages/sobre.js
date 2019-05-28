@@ -72,18 +72,21 @@ const Sobre = () => (
                 Este sistema foi criado como trabalho de conclusão de curso
                 pelos alunos <b>Brenno Luis</b>, <b>David Sales</b>,{' '}
                 <b>Julio Volpatto</b>, <b>Henrick Mello</b> e{' '}
-                <b>Thalya Medeiros</b> e continuado por <b>Blaine Silva</b>, {' '}
-                <b>Maria Izabel Silva</b> e <b>Rafaela Maciel</b> no Instituto Federal de 
-                Educação Ciência e Tecnologia do Rio de Janeiro - <i>Campus</i> Arraial do Cabo
-                no curso de técnico de informática.
+                <b>Thalya Medeiros</b> e continuado por <b>Blaine Silva</b>,{' '}
+                <b>Maria Izabel Silva</b> e <b>Rafaela Maciel</b> no Instituto
+                Federal de Educação Ciência e Tecnologia do Rio de Janeiro -{' '}
+                <i>Campus</i> Arraial do Cabo no curso de técnico de
+                informática.
                 <hr />
                 <h4>Manuais</h4>
                 <a href="https://gestif.gitbook.io/expansao/" target="_blank">
                   Manual de utilização
-                </a>.<br />
+                </a>
+                .<br />
                 <a href="https://gestif.gitbook.io/expansao/" target="_blank">
                   Manual de expansão
-                </a>.
+                </a>
+                .
               </div>
             </div>
           </div>

@@ -5,7 +5,7 @@ const ModalSuccess = ({
   open,
   handleClose,
   handleConfirm,
-  data: { name, email, disciplinas, roles, password }
+  data: { name, email, disciplina, roles, password }
 }) => (
   <Modal
     open={open}
@@ -25,7 +25,9 @@ const ModalSuccess = ({
       <h3>
         <b>Nome:</b> {name} <br />
         <b>E-mail:</b> {email} <br />
-        <b>Disciplinas:</b>{disciplinas}<br />
+        <b>Disciplina:</b>
+        {disciplina}
+        <br />
         <b>Setor(s):</b>{' '}
         {roles &&
           roles.map(s => {

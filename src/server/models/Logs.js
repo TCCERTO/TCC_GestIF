@@ -10,6 +10,7 @@ const logsSchema = new Schema({
     type: String,
     required: true
   },
+  roles: [String],
   autor: {
     type: String
   },

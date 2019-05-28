@@ -13,7 +13,7 @@ class FormEditUser extends React.Component {
     this.handleSetorChange = this.handleSetorChange.bind(this)
   }
   componentDidMount() {
-    Auth.fetch('/api/alunos/' + this.props.user, { method: 'get' }).then(
+    Auth.fetch('/api/users/' + this.props.user, { method: 'get' }).then(
       data => {
         this.setState({
           form: {
@@ -75,17 +75,12 @@ class FormEditUser extends React.Component {
         </Form.Field>
         <Form.Field>
           <label>Disciplinas</label>
-          <Dropdown
+          <input
             placeholder="Disciplinas..."
             onChange={this.handleSetorChange}
             name="disciplina"
-            selection
-            multiple
-            fluid
-            required
-            options={disciplinas.map(d => {
-              return { key: d.id, value: d.id, text: d.name }
-            })}
+            value={this.state.form.email || ''}
+            onChange={this.handleChange}
           />
         </Form.Field>
         <Form.Field>
@@ -93,7 +88,6 @@ class FormEditUser extends React.Component {
           <input
             placeholder="Período..."
             name="periodo"
-            required
             onChange={this.handleChange}
           />
         </Form.Field>
@@ -102,7 +96,6 @@ class FormEditUser extends React.Component {
           <input
             placeholder="Turno..."
             name="turno"
-            required
             onChange={this.handleChange}
           />
         </Form.Field>

@@ -36,11 +36,13 @@ export default class Login extends Component {
         <div class="pusher">
           <div class="ui inverted vertical masthead center aligned segment">
             <div class="ui container">
-              <div class="ui large secondary inverted pointing menu">
+              <div class="ui large secondary inverted pointing menu stackable">
                 <a class="item" href="/inicio">
                   Início
                 </a>
-                <a class="item">Monitorias</a>
+                <a class="item" href="/cotp/monitorias">
+                  Monitorias
+                </a>
                 <a class="item" href="/cotp/pae">
                   PAE
                 </a>

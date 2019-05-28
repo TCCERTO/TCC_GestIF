@@ -1,0 +1,8 @@
+Abra a pasta:
+C:\Users\anabl\AppData\Local\Packages\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\LocalState\Assets
+
+Lá você encontrará arquivos sem extensão e que não tem um app específico que abra eles. Copie esses arquivos para outra 
+pasta. Agora, em qualquer janela do Explorer, clique na aba Exibir, e no botão Opções. Na aba Modo de exibição, selecione
+ a opção Mostrar arquivos, pasta e unidade ocultas, e desmarque a opção Ocultar as extensões dos tipos de arquivo 
+conhecidos. Na pasta onde os arquivos foram colados, renomeie-os escrevendo no final ".jpg", e com isso eles se converterão 
+em imagens, que poderão ser usados como você quiser.

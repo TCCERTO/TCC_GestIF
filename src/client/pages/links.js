@@ -30,15 +30,15 @@ class Links extends React.Component {
           <br />
           <div className="cubes">
             {links.map(m => {
-                  return (
-                    <ModuleCube
-                      key={m.id + m.name}
-                      name={m.name}
-                      id={m.id}
-                      color={m.color}
-                    />
-                  )
-              })}
+              return (
+                <ModuleCube
+                  key={m.id + m.name}
+                  name={m.name}
+                  id={m.id}
+                  color={m.color}
+                />
+              )
+            })}
           </div>
         </div>
         <style jsx global>{`

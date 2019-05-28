@@ -61,28 +61,23 @@ const modulos = [
       },
       {
         text: 'Assistência Social',
-        icon: 'fa fa-cog',
+        icon: 'fa fa-address-card',
         submenu: [
           {
-            text: 'nome1',
+            text: 'PAE',
             href: '/cotp/assistencia_social',
             icon: 'fa fa-address-card'
-          },
-          {
-            text: 'nome2',
-            href: '/cotp/assistencia_social',
-            icon: 'fa fa-book'
           }
         ]
       },
       {
         text: 'Orientação Pedagógica',
-        icon: 'fa fa-cog',
+        icon: 'fa fa-book',
         submenu: [
           {
             text: 'Dependências',
             href: '/cotp/orientacao_pedagogica/dependencias',
-            icon: 'fa fa-address-card'
+            icon: 'fa fa-book'
           },
           {
             text: 'Monitorias',
@@ -91,7 +86,6 @@ const modulos = [
           }
         ]
       }
-      
     ]
   },
   {
@@ -109,11 +103,23 @@ const modulos = [
   {
     id: 'professor',
     name: 'Professor',
-    color: '#222',
+    color: '#00abc9',
     menu: [
       {
         text: 'Início',
         href: '/professor',
+        icon: 'fa fa-home'
+      }
+    ]
+  },
+  {
+    id: 'monitor',
+    name: 'Monitor',
+    color: '#1CC43A',
+    menu: [
+      {
+        text: 'Início',
+        href: '/monitor',
         icon: 'fa fa-home'
       }
     ]

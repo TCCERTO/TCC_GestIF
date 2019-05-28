@@ -52,6 +52,7 @@ class Modulos extends React.Component {
               })}
           </div>
         </div>
+
         <style jsx global>{`
           .cube-container {
             height: 100vh !important;

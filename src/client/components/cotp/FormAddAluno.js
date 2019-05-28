@@ -73,18 +73,12 @@ class FormAddAluno extends React.Component {
           />
         </Form.Field>
         <Form.Field>
-          <label>Disciplinas</label>
-          <Dropdown
-            placeholder="Disciplinas..."
-            onChange={this.handleSetorChange}
+          <label>Disciplina da dependência</label>
+          <input
+            placeholder="Disciplina..."
             name="disciplina"
-            selection
-            multiple
-            fluid
             required
-            options={disciplinas.map(d => {
-              return { key: d.id, value: d.id, text: d.name }
-            })}
+            onChange={this.handleChange}
           />
         </Form.Field>
         <Form.Field>

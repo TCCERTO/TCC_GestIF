@@ -20,9 +20,12 @@ export default () => (
       <section className="content">
         <h1>Orientação Pedagógica</h1>
         <br />
-        <button class="ui black button"><h3>Dependências</h3></button>
-        <button class="ui black button"><h3>Monitorias</h3></button>
-        
+        <button class="ui black button">
+          <h3>Dependências</h3>
+        </button>
+        <button class="ui black button">
+          <h3>Monitorias</h3>
+        </button>
       </section>
     </div>
   </Page>

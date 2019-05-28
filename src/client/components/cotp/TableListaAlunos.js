@@ -16,7 +16,7 @@ const TableListaAlunos = ({ alunos, deleteUser }) => (
         <Table.HeaderCell>ID</Table.HeaderCell>
         <Table.HeaderCell>Nome</Table.HeaderCell>
         <Table.HeaderCell>E-mail</Table.HeaderCell>
-        <Table.HeaderCell>Disciplinas</Table.HeaderCell>
+        <Table.HeaderCell>Disciplina</Table.HeaderCell>
         <Table.HeaderCell>Período</Table.HeaderCell>
         <Table.HeaderCell>Turno</Table.HeaderCell>
         <Table.HeaderCell>Opções</Table.HeaderCell>
@@ -30,13 +30,9 @@ const TableListaAlunos = ({ alunos, deleteUser }) => (
             <Table.Cell collapsing>{user._id}</Table.Cell>
             <Table.Cell>{user.name}</Table.Cell>
             <Table.Cell>{user.email}</Table.Cell>
-            <Table.Cell>
-            {user.disciplinas.map(s => {
-                return <Label key={s}>{s}</Label>
-              })}
-            </Table.Cell>
+            <Table.Cell>{user.disciplina}</Table.Cell>
             <Table.Cell>{user.periodo}</Table.Cell>
-            <Table.Cell>{user.turno}</Table.Cell>  
+            <Table.Cell>{user.turno}</Table.Cell>
             <Table.Cell collapsing>
               <Button.Group size="tiny">
                 <Link href={'?aluno=' + user._id}>
