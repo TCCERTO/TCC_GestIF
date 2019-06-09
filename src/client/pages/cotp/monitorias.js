@@ -97,6 +97,9 @@ export default class Monitorias extends Component {
                 <a class="item" href="/csti/reportar">
                   Report à CSTI
                 </a>
+                <a class="item" href="/monitor/listas">
+                  Listas de Exercícios
+                </a>
                 <div class="right item">
                   <a class="ui inverted button" href="/login">
                     Login

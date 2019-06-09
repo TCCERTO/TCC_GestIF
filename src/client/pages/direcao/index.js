@@ -18,7 +18,7 @@ export default () => (
         </ol>
       </section>
       <section className="content">
-        <h1>Direção</h1>
+        <h1>Novo Módulo</h1>
       </section>
     </div>
   </Page>

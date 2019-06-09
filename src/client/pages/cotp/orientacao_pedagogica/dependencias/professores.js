@@ -14,7 +14,7 @@ import Page from '~layouts/main'
 import Head from '~components/head'
 
 import FormAddProfessor from '~components/cotp/FormAddProfessor'
-import FormEditUser from '~components/usuarios/FormEditUser'
+import FormEditProfessor from '~components/cotp/FormEditProfessor'
 import TableListaProfessores from '~components/cotp/TableListaProfessores'
 import ModalSuccessProfessor from '~components/cotp/ModalSuccessProfessor'
 import ModalDeletaUser from '~components/usuarios/ModalDeletaUser'
@@ -154,7 +154,7 @@ class Usuarios extends React.Component {
                       userToDelete={this.state.userToDelete}
                     />
                     {(this.props.url.query.user && (
-                      <FormEditUser
+                      <FormEditProfessor
                         user={this.props.url.query.user}
                         onSubmit={this.onEditSubmit.bind(this)}
                       />

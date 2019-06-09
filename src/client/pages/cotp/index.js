@@ -5,6 +5,9 @@ import Auth from '~utils/AuthService'
 import React, { Component } from 'react'
 import Link from 'next/link'
 
+import TableListaUploads from '~components/TableListaUploads'
+import ModalDeletaUpload from '~components/ModalDeletaUpload'
+
 export default class COTP extends Component {
   constructor(props) {
     super(props)
@@ -14,7 +17,11 @@ export default class COTP extends Component {
       stats: {},
       statsP: {},
       count: [],
-      byMe: []
+      statsM: [],
+      statsA: [],
+      uploads: [],
+      deletaUpload: false,
+      uploadToDelete: {}
     }
   }
 
@@ -28,23 +35,38 @@ export default class COTP extends Component {
     Auth.fetch('/api/logsAlunos/count').then(data => {
       this.setState({ count: data })
     })
-    Auth.fetch('/api/logsAlunos/count/me').then(data => {
-      this.setState({ byMe: data })
+    Auth.fetch('/api/logsMonitores/statsM').then(data => {
+      this.setState({ statsM: data })
     })
-    Auth.fetch('/api/users/alunosFind?limit=5')
-      .then(data => {
-        this.setState({ userList: data })
-      })
-      .catch(err => {
-        console.log(err)
-      })
-    Auth.fetch('/api/users/professoresFind?limit=10')
-      .then(data => {
-        this.setState({ professorList: data })
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    Auth.fetch('/api/atividadesAcessadas/statsA').then(data => {
+      this.setState({ statsA: data })
+    })
+    Auth.fetch('/api/uploads/').then(data => {
+      this.setState({ uploads: data })
+    })
+  }
+
+  deleteUpload(id, filename) {
+    this.setState({ deletaUpload: true, uploadToDelete: { id, filename } })
+  }
+  confirmDeleteUpload() {
+    this.setState({ deletaUpload: false, uploadToDelete: {} })
+    const { id } = this.state.uploadToDelete
+    Auth.fetch('/api/uploads/delete', {
+      method: 'DELETE',
+      body: JSON.stringify({ id })
+    }).then(data => {
+      console.log('Success', data)
+    })
+    this.setState({
+      uploads: this.state.uploads.filter(
+        u => u._id !== this.state.uploadToDelete.id
+      )
+    })
+  }
+
+  handleClose() {
+    this.setState({ deletaUpload: false, uploadToDelete: {} })
   }
 
   render() {
@@ -75,7 +97,7 @@ export default class COTP extends Component {
                   </div>
                   <div className="icon">
                     <i
-                      className="fa fa-clipboard"
+                      className="fa fa-address-card"
                       style={{ paddingTop: '20px', fontSize: '80px' }}
                     />
                   </div>
@@ -91,18 +113,19 @@ export default class COTP extends Component {
               <div className="col-lg-3 col-xs-6">
                 <div className="small-box bg-red">
                   <div className="inner">
-                    <h3>{this.state.stats.maisDeUmaSemana}</h3>
+                    <h3>{this.state.statsA.numAtividadesAcessadas}</h3>
                     <p>Atividades acessadas</p>
                   </div>
                   <div className="icon">
                     <i
-                      className="fa fa-times"
+                      className="fa fa-file"
                       style={{ paddingTop: '20px', fontSize: '80px' }}
                     />
                   </div>
-                  <Link href="/csti/reports">
+                  <Link href="/cotp/atividadesAcessadas">
                     <a className="small-box-footer">
-                      Ir para reports <i className="fa fa-arrow-circle-right" />
+                      Ir para Atividades Acessadas{' '}
+                      <i className="fa fa-arrow-circle-right" />
                     </a>
                   </Link>
                 </div>
@@ -116,7 +139,7 @@ export default class COTP extends Component {
                   </div>
                   <div className="icon">
                     <i
-                      className="fa fa-check"
+                      className="fa fa-user"
                       style={{ paddingTop: '20px', fontSize: '80px' }}
                     />
                   </div>
@@ -132,61 +155,38 @@ export default class COTP extends Component {
               <div className="col-lg-3 col-xs-6">
                 <div className="small-box bg-green">
                   <div className="inner">
-                    <h3>{this.state.stats.numTotal}</h3>
-                    <p>...</p>
+                    <h3>{this.state.statsM.numLogsMonitores}</h3>
+                    <p>Logs de Monitores</p>
                   </div>
                   <div className="icon">
                     <i
-                      className="fa fa-chart-bar"
+                      className="fa fa-user"
                       style={{ paddingTop: '20px', fontSize: '80px' }}
                     />
                   </div>
-                  <Link href="/csti/reports">
+                  <Link href="/cotp/logsMonitores">
                     <a className="small-box-footer">
-                      Ir para reports <i className="fa fa-arrow-circle-right" />
+                      Ir para logs de Monitores{' '}
+                      <i className="fa fa-arrow-circle-right" />
                     </a>
                   </Link>
                 </div>
               </div>
             </div>
-
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <div class="ui buttons">
-              <button class="ui button">
-                <h3>Dependências</h3>
-              </button>
-              <button class="ui button">
-                <h3>Monitorias</h3>
-              </button>
+            <div className="box box-primary">
+              <div className="box-body">
+                <TableListaUploads
+                  uploads={this.state.uploads}
+                  deleteUpload={this.deleteUpload.bind(this)}
+                />
+              </div>
             </div>
-            <br />
-            <br />
-
-            <br />
+            <ModalDeletaUpload
+              open={this.state.deletaUpload}
+              handleClose={this.handleClose.bind(this)}
+              handleConfirm={this.confirmDeleteUpload.bind(this)}
+              uploadToDelete={this.state.uploadToDelete}
+            />
           </section>
         </div>
       </Page>

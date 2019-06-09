@@ -35,7 +35,7 @@ const TableListaAlunos = ({ alunos, deleteUser }) => (
             <Table.Cell>{user.turno}</Table.Cell>
             <Table.Cell collapsing>
               <Button.Group size="tiny">
-                <Link href={'?aluno=' + user._id}>
+                <Link href={'?user=' + user._id}>
                   <Button color="grey" size="tiny" compact content="Editar" />
                 </Link>
                 <Button.Or text="ou" />

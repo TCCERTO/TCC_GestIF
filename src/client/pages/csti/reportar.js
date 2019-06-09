@@ -49,6 +49,9 @@ export default class Login extends Component {
                 <a class="active item" href="/csti/reportar">
                   Report à CSTI
                 </a>
+                <a class="item" href="/monitor/listas">
+                  Listas de Exercícios
+                </a>
                 <div class="right item">
                   <a class="ui inverted button" href="/login">
                     Login

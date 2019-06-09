@@ -7,14 +7,16 @@ import reports from './reports'
 import reportar from './reports/reportar'
 import logs from './logs'
 import install from './install'
-//import alunos from './alunos'
-//import professores from './professores'
 import logsAlunos from './logsAlunos'
 import logsProfessores from './logsProfessores'
+import logsMonitores from './logsMonitores'
+import atividadesAcessadas from './atividadesAcessadas'
 import monitorias from './monitorias'
 import reservas from './reservas'
+import reservasAulas from './reservasAulas'
 import uploads from './uploads'
 import pae from './pae'
+import paeNot from './paeNot'
 
 const router = Router()
 
@@ -26,13 +28,15 @@ router.use('/reportar', reportar)
 router.use('/reports', withToken, reports)
 router.use('/logs', withToken, logs)
 router.use('/install', install)
-//router.use('/alunos', withToken, alunos)
-//router.use('/professores', withToken, professores)
 router.use('/logsAlunos', withToken, logsAlunos)
 router.use('/logsProfessores', withToken, logsProfessores)
+router.use('/logsMonitores', withToken, logsMonitores)
+router.use('/atividadesAcessadas', withToken, atividadesAcessadas)
 router.use('/monitorias', monitorias)
-router.use('/reservas', reservas)
+router.use('/reservas', withToken, reservas)
+router.use('/reservasAulas', withToken, reservasAulas)
 router.use('/uploads', /*withToken,*/ uploads)
-router.use('/pae', withToken, pae)
+router.use('/pae', pae)
+router.use('/paeNot', paeNot)
 
 export default router

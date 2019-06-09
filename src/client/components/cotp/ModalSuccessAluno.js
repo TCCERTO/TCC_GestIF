@@ -25,7 +25,14 @@ const ModalSuccess = ({
       <h3>
         <b>Nome:</b> {name} <br />
         <b>E-mail:</b> {email} <br />
-        <b>Disciplina:</b> {disciplina} <br />
+        <b>Disciplina:</b>
+        {/* {' '}
+        {disciplina &&
+          disciplina.map(s => {
+            return <Label key={s}>{s}</Label>
+          })}{' '} <br />*/}
+        {disciplina}
+        <br />
         <b>Período:</b> {periodo} <br />
         <b>Turno:</b> {turno} <br />
         <b>Senha:</b> {password} <br />

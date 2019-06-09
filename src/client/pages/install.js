@@ -11,16 +11,16 @@ export default class Login extends Component {
       enviado: false,
       errors: {
         senha: false
-      },
-      installed: false
+      }
+      //installed: false
     }
   }
   componentDidMount() {
-    auth.fetch('/api/install').then(res => {
+    /*auth.fetch('/api/install').then(res => {
       if (res.code === 'ALREADY_INSTALLED') {
         this.setState({ installed: true })
       }
-    })
+    })*/
   }
   onSubmit(e) {
     e.preventDefault()
@@ -51,7 +51,7 @@ export default class Login extends Component {
       })
   }
   render() {
-    if (this.state.installed) {
+    /*if (this.state.installed) {
       return (
         <center>
           <Head title="Instalação | GestIF" />
@@ -60,7 +60,7 @@ export default class Login extends Component {
           </div>
         </center>
       )
-    }
+    }*/
     return (
       <div className="hold-transition login-page">
         <Head title="Instalação | GestIF" />
@@ -82,7 +82,7 @@ export default class Login extends Component {
           )}
           <Segment stacked>
             Esta é a página de instalação do GestIF.
-            <p>Aqui você irá criar o usuário inicial do sistema</p>
+            <p>Aqui você irá criar seu usuário do sistema</p>
             <Form onSubmit={this.onSubmit.bind(this)}>
               <Form.Field>
                 <Form.Input

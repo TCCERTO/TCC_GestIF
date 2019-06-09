@@ -11,14 +11,16 @@ import {
   Header,
   Icon,
   Message,
-  Dropdown
+  Dropdown,
+  Table
 } from 'semantic-ui-react'
 
 import FormAddDia from '~components/monitores/FormAddDia'
-import FormEditDia from '~components/monitores/FormEditDia'
 import TableListaDias from '~components/monitores/TableListaDias'
 import ModalSuccessMonitoria from '~components/monitores/ModalSuccessMonitoria'
-import ModalDeletaUser from '~components/usuarios/ModalDeletaUser'
+import ModalDeletaMonitoria from '~components/monitores/ModalDeletaMonitoria'
+import TableListaUploads from '~components/TableListaUploads'
+import ModalDeletaUpload from '~components/ModalDeletaUpload'
 
 class Home extends Component {
   constructor() {
@@ -27,40 +29,87 @@ class Home extends Component {
       user: {},
       success: false,
       created: false,
+      deletamonitoria: false,
       data: {},
-      userToEdit: '',
-      userList: [],
-      userToDelete: {}
+      monitoriaList: [],
+      monitoriaToDelete: {},
+      reservas: [],
+      reservasA: [],
+      uploads: [],
+      uploadToDelete: {},
+      deletaUpload: false
     }
   }
   componentDidMount() {
     Auth.fetch('/api/users/me1').then(data => {
-      this.setState({ userList: data })
+      this.setState({ monitoriaList: data })
     })
     Auth.fetch('/api/users/me').then(data => {
       this.setState({ user: data })
-      //this.setState({ userList: data})
+      Auth.fetch(
+        '/api/reservas/reservasS/' + data.disciplina + '/' + data.name
+      ).then(data2 => {
+        this.setState({ reservas: data2 })
+      })
+      Auth.fetch(
+        '/api/reservas/reservasA/' + data.disciplina + '/' + data.name
+      ).then(data3 => {
+        this.setState({ reservasA: data3 })
+      })
+      Auth.fetch(
+        '/api/uploads/me/' +
+          data.disciplina +
+          '/' +
+          data.roles +
+          '/' +
+          data.name
+      ).then(data => {})
+      Auth.fetch(
+        '/api/uploads/m/p/' +
+          data.disciplina +
+          '/' +
+          data.roles +
+          '/' +
+          data.name
+      ).then(data => {
+        this.setState({ uploads: data })
+      })
     })
-    //this.setState({userList: this.state.user.monitorias})
   }
-  deleteUser(id, name) {
-    this.setState({ deletaUser: true, userToDelete: { name, id } })
-    console.log(id, name)
+
+  deleteUpload(id, filename) {
+    this.setState({ deletaUpload: true, uploadToDelete: { id, filename } })
   }
-  confirmDeleteUser() {
-    this.setState({ deletaUser: false, userToDelete: {} })
-    const { id } = this.state.userToDelete
-    Auth.fetch('/api/users/monitoresDel', {
+
+  confirmDeleteUpload() {
+    this.setState({ deletaUpload: false, uploadToDelete: {} })
+    const { id } = this.state.uploadToDelete
+    Auth.fetch('/api/uploads/delete', {
       method: 'DELETE',
-      user: this.state.user.id,
       body: JSON.stringify({ id })
     }).then(data => {
       console.log('Success', data)
     })
     this.setState({
-      userList: this.state.userList.filter(
-        u => u._id !== this.state.userToDelete.id
+      uploads: this.state.uploads.filter(
+        u => u._id !== this.state.uploadToDelete.id
       )
+    })
+  }
+  deletemonitoria(monitoria) {
+    this.setState({ deletamonitoria: true, monitoriaToDelete: { monitoria } })
+  }
+  confirmDeleteMonitoria() {
+    Auth.fetch('/api/users/monitoriaDel', {
+      method: 'DELETE',
+      body: JSON.stringify(this.state.monitoriaToDelete)
+    })
+    this.setState({
+      monitoriaList: this.state.monitoriaList.filter(
+        u => u !== this.state.monitoriaToDelete.monitoria
+      ),
+      deletamonitoria: false,
+      monitoriaToDelete: {}
     })
   }
   onSubmit(e) {
@@ -69,32 +118,35 @@ class Home extends Component {
       data: e
     })
   }
-  onEditSubmit(data, id) {
-    Auth.fetch('/api/users/' + id, {
-      method: 'PATCH',
-      body: JSON.stringify(data)
-    }).then(() => {
-      this.setState({ edited: true })
+
+  handleClose() {
+    this.setState({
+      success: false,
+      deletamonitoria: false,
+      edit: false,
+      monitoriaToDelete: {},
+      deletaUpload: false
     })
   }
-  handleClose() {
-    this.setState({ success: false, deletaUser: false, userToDelete: {} })
-  }
   handleConfirm() {
+    //alert(JSON.stringify(this.state.data))
     this.setState({
-      userList: [
-        ...this.state.userList,
+      monitoriaList: [
+        ...this.state.monitoriaList,
         { ...this.state.data, joined: 'Agora mesmo', _id: Date.now() }
       ]
     })
     Auth.fetch('/api/users/monitoriaCad', {
       method: 'POST',
-      user: this.state.user.id,
       body: JSON.stringify(this.state.data)
     }).then(() => {
       //TODO: Lidar com erros vindos do backend (email em uso, etc)
       this.setState({ success: false, created: true })
     })
+  }
+
+  upload() {
+    Auth.fetch('/api/uploads/upload')
   }
   render() {
     return (
@@ -103,7 +155,7 @@ class Home extends Component {
         <div className="content-wrapper">
           <section className="content-header">
             <h1>
-              {this.state.user.name} <small>abc</small>
+              {this.state.user.name} <small>Página inicial</small>
             </h1>
             <ol className="breadcrumb">
               <li>
@@ -116,21 +168,56 @@ class Home extends Component {
           <section className="content">
             <div className="row">
               <div className="col-md-6">
-                <Link href="monitor/diasHorarios">
-                  <a>
-                    <Button secondary fluid style={{ marginTop: '10px' }}>
-                      Dias e horários
-                    </Button>
-                  </a>
-                </Link>
+                <div className="col-lg-6 col-xs-6">
+                  <div className="small-box bg-purple">
+                    <div className="inner">
+                      <h3>{this.state.reservas.length} </h3>
+                      novas reservas
+                    </div>
+                    <div className="icon">
+                      <i
+                        className="fa fa-exclamation-triangle"
+                        style={{ paddingTop: '20px', fontSize: '80px' }}
+                      />
+                      <br />
+                    </div>
+                    <Link href="/monitor/reservas">
+                      <a className="small-box-footer">
+                        Ir para reservas{' '}
+                        <i className="fa fa-arrow-circle-right" />
+                      </a>
+                    </Link>
+                  </div>
+                </div>
+
+                <div className="col-lg-6 col-xs-6">
+                  <div className="small-box bg-aqua">
+                    <div className="inner">
+                      <h3>{this.state.reservasA.length}</h3>
+                      <p>Monitorias dadas</p>
+                    </div>
+                    <div className="icon">
+                      <i
+                        className="fa fa-book"
+                        style={{ paddingTop: '20px', fontSize: '80px' }}
+                      />
+                    </div>
+                    <Link href="/monitor/reservas">
+                      <a className="small-box-footer">
+                        Ir para reservas{' '}
+                        <i className="fa fa-arrow-circle-right" />
+                      </a>
+                    </Link>
+                  </div>
+                </div>
               </div>
               <div className="col-md-6">
                 <div className="box box-success">
                   <div className="box-header">
                     <h3>
-                      {!this.props.url.query.user
+                      {!this.props.url.query.monitoria
                         ? 'Cadastro de Monitoria'
-                        : 'Editar Monitoria'}
+                        : ''}
                     </h3>
                   </div>
                   <div className="box-body">
@@ -156,35 +243,88 @@ class Home extends Component {
                       handleConfirm={this.handleConfirm.bind(this)}
                       data={this.state.data}
                     />
-                    <ModalDeletaUser
-                      open={this.state.deletaUser}
+                    {/*<FormModalEditDia
+                      open={this.state.edit}
                       handleClose={this.handleClose.bind(this)}
-                      handleConfirm={this.confirmDeleteUser.bind(this)}
-                      userToDelete={this.state.userToDelete}
+                      onClick={this.onEditSubmit.bind(this)}
+                      data={this.state.monitoriaToEdit}
+                    />*/}
+                    <ModalDeletaMonitoria
+                      open={this.state.deletamonitoria}
+                      handleClose={this.handleClose.bind(this)}
+                      handleConfirm={this.confirmDeleteMonitoria.bind(this)}
+                      monitoriaToDelete={this.state.monitoriaToDelete}
                     />
-                    {(this.props.url.query.user && (
-                      <FormEditDia
-                        user={this.props.url.query.user}
-                        onSubmit={this.onEditSubmit.bind(this)}
-                      />
-                    )) || <FormAddDia onSubmit={this.onSubmit.bind(this)} />}
+                    <ModalDeletaUpload
+                      open={this.state.deletaUpload}
+                      handleClose={this.handleClose.bind(this)}
+                      handleConfirm={this.confirmDeleteUpload.bind(this)}
+                      uploadToDelete={this.state.uploadToDelete}
+                    />
+                    {<FormAddDia onSubmit={this.onSubmit.bind(this)} />}
                   </div>
                 </div>
-                {!this.props.url.query.user && (
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-6">
+                <center>
+                  <h2>Uploads</h2>
+                  <form
+                    //action={"/api/uploads/up/"+this.state.user.roles+'/'+this.state.user.disciplina}
+                    action="api/uploads/upload"
+                    method="POST"
+                    enctype="multipart/form-data"
+                  >
+                    <div class="custom-file mb-3">
+                      <div for="file" class="ui icon header">
+                        Selecione o arquivo
+                      </div>
+                      <br />
+                      <br />
+                      <input type="file" name="file" id="file" />
+                      <br />
+                    </div>
+                    <br />
+                    <input
+                      type="submit"
+                      value="Enviar"
+                      class="ui blue button"
+                    />
+                  </form>
+                </center>
+              </div>
+              <div className="col-md-6">
+                {!this.props.url.query.monitoria && (
                   <div className="box box-primary">
                     <div className="box-header">
                       <h3>Dias de Monitorias</h3>
                     </div>
                     <div className="box-body">
                       <TableListaDias
-                        users={this.state.userList}
-                        deleteUser={this.deleteUser.bind(this)}
+                        monitorias={this.state.monitoriaList}
+                        deletemonitoria={this.deletemonitoria.bind(this)}
+                        //editmonitoria={this.editmonitoria.bind(this)}
                       />
                     </div>
                   </div>
                 )}
               </div>
             </div>
+            <br />
+            <center>
+              <div style={{ width: 900 }}>
+                <div className="box box-primary">
+                  <div className="box-header" />
+                  <div className="box-body">
+                    <TableListaUploads
+                      uploads={this.state.uploads}
+                      deleteUpload={this.deleteUpload.bind(this)}
+                    />
+                  </div>
+                </div>
+              </div>
+            </center>
           </section>
         </div>
       </Page>

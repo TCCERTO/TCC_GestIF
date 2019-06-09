@@ -11,20 +11,28 @@ const router = Router()
 Validação do módulo de Reports:
 Só retorna algum resultado das rotas se tiver a role cotp no perfil do usuário.
 */
-router.use(hasRole('cotp'))
+//router.use(hasRole('cotp'))
 
 //roles: {$all: ["aluno"]}
 
-router.get('/', (req, res) => {
-  Logs.find({ roles: { $all: ['aluno'] } })
+router.get('/', hasRole('cotp'), (req, res) => {
+  Logs.find({ roles: { $all: ['aluno'] }, type: 'LOGIN' })
     .sort({ data: -1 })
     .then(logs => {
       res.send(logs)
     })
 })
 
-router.get('/stats', (req, res) => {
-  Logs.find({ roles: { $all: ['aluno'] } }).then(logs => {
+router.get('/p', hasRole('professor'), (req, res) => {
+  Logs.find({ roles: { $all: ['aluno'] }, type: 'LOGIN' })
+    .sort({ data: -1 })
+    .then(logs => {
+      res.send(logs)
+    })
+})
+
+router.get('/stats', hasRole('cotp'), (req, res) => {
+  Logs.find({ roles: { $all: ['aluno'] }, type: 'LOGIN' }).then(logs => {
     const UmaSemana = new Date().getTime() - 7 * 24 * 60 * 60 * 1000
     const numLogsAlunos = logs.length
     const numTotal = logs.length
@@ -42,7 +50,26 @@ router.get('/stats', (req, res) => {
   })
 })
 
-router.get('/count', (req, res) => {
+router.get('/stats/p', hasRole('professor'), (req, res) => {
+  Logs.find({ roles: { $all: ['aluno'] }, type: 'LOGIN' }).then(logs => {
+    const UmaSemana = new Date().getTime() - 7 * 24 * 60 * 60 * 1000
+    const numLogsAlunos = logs.length
+    const numTotal = logs.length
+    const numResolvidoPor = logs.filter(r => r.resolvidoPor === req.user.id)
+      .length
+    const maisDeUmaSemana = logs.filter(
+      r => r.status === 0 && new Date(r.data).getTime() < UmaSemana
+    ).length
+    res.send({
+      numLogsAlunos,
+      numTotal,
+      numResolvidoPor,
+      maisDeUmaSemana
+    })
+  })
+})
+
+router.get('/count', hasRole('cotp'), (req, res) => {
   Logs.aggregate([
     {
       $match: {
@@ -52,7 +79,8 @@ router.get('/count', (req, res) => {
             .toDate(),
           $lt: moment().toDate()
         },
-        roles: 'aluno'
+        roles: 'aluno',
+        type: 'LOGIN'
       }
     },
     {
@@ -67,6 +95,7 @@ router.get('/count', (req, res) => {
     }
   ]).then(logs => {
     const months = new Array(
+      'Dezembro',
       'Janeiro',
       'Fevereiro',
       'Março',
@@ -77,8 +106,7 @@ router.get('/count', (req, res) => {
       'Agosto',
       'Setembro',
       'Outubro',
-      'Novembro',
-      'Dezembro'
+      'Novembro'
     )
     const result = []
     const thisMonth = new Date().getMonth() + 1

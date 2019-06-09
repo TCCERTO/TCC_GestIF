@@ -1,4 +1,4 @@
-const disciplinas = [
+const disciplina = [
   {
     id: 'matematica',
     name: 'Matemática',
@@ -37,4 +37,4 @@ const disciplinas = [
   }
 ]
 
-export default disciplinas
+export default disciplina

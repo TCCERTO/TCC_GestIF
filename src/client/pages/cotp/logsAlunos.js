@@ -19,6 +19,13 @@ export default class Reports extends Component {
         logs
       })
     })
+    if (this.state.logs.length === 0) {
+      Auth.fetch('/api/logsAlunos/p').then(logs => {
+        this.setState({
+          logs
+        })
+      })
+    }
   }
   render() {
     return (
@@ -34,11 +41,6 @@ export default class Reports extends Component {
               <li>
                 <a href="/">
                   <i className="fa fa-dashboard" /> Iní­cio
-                </a>
-              </li>
-              <li>
-                <a href="/cotp/orientacao_pedagogica/dependencias">
-                  <i className="fa fa-dashboard" /> Dependências
                 </a>
               </li>
               <li>

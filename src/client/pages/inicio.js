@@ -31,6 +31,9 @@ export default () => (
             <a class="item" href="/csti/reportar">
               Report à CSTI
             </a>
+            <a class="item" href="/monitor/listas">
+              Listas de Exercícios
+            </a>
             <div class="right item">
               <a class="ui inverted button" href="/login">
                 Login
@@ -56,6 +59,8 @@ export default () => (
           <br />
           <br />
           <h3>{dia}</h3>
+          <br />
+          <br />
           <br />
           <br />
           <br />

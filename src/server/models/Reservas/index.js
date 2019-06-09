@@ -2,6 +2,10 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const reservasSchema = new Schema({
+  status: {
+    type: Number,
+    default: 0
+  },
   reserva: {
     type: String,
     required: true

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form, Button, Dropdown } from 'semantic-ui-react'
-import disciplinas from '../../disciplinas'
+import disciplina from '../../disciplinas'
 import modulos from '../../modulos'
 
 function generatePassword() {
@@ -38,7 +38,7 @@ class FormAddAluno extends React.Component {
     this.setState({
       form: {
         ...this.state.form,
-        disciplinas: data.value
+        disciplina: data.value
       }
     })
   }
@@ -80,6 +80,17 @@ class FormAddAluno extends React.Component {
             required
             onChange={this.handleChange}
           />
+          {/*<Dropdown
+            placeholder="Disciplina..."
+            onChange={this.handleDisciplinaChange}
+            name="disciplina"
+            selection
+            multiple
+            fluid
+            required
+            options={disciplina.map(m => {
+              return { key: m.id, value: m.id, text: m.name }
+            })}/>*/}
         </Form.Field>
         <Form.Field>
           <label>Período</label>

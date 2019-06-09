@@ -39,53 +39,16 @@ class FormEditUser extends React.Component {
         onSubmit={() => this.props.onSubmit(this.state.form, this.props.user)}
       >
         <Form.Field>
-          <label>Nome</label>
+          <label>Dia da Semana e Hora</label>
           <input
-            placeholder="Nome completo..."
-            name="name"
+            placeholder="Dia e Hora..."
+            name="monitoria"
             required
-            value={this.state.form.name || ''}
             onChange={this.handleChange}
-          />
-        </Form.Field>
-        <Form.Field>
-          <label>Email</label>
-          <input
-            placeholder="Email..."
-            name="email"
-            required
-            type="email"
-            value={this.state.form.email || ''}
-            onChange={this.handleChange}
-          />
-        </Form.Field>
-        <Form.Field>
-          <label>Setor</label>
-          <Dropdown
-            placeholder="Setor..."
-            onChange={this.handleSetorChange}
-            name="roles"
-            selection
-            multiple
-            fluid
-            required
-            value={
-              this.state.form.roles &&
-              this.state.form.roles.map(r => {
-                return r
-              })
-            }
-            options={[
-              { key: 'csti', value: 'csti', text: 'CSTI' },
-              { key: 'dir', value: 'direcao', text: 'Direção' },
-              { key: 'cotp', value: 'cotp', text: 'COTP' },
-              { key: 'alu', value: 'aluno', text: 'Aluno' },
-              { key: 'prof', value: 'professor', text: 'Professor' }
-            ]}
           />
         </Form.Field>
         <Button type="submit" secondary fluid>
-          Atualizar usuário
+          Atualizar monitoria
         </Button>
       </Form>
     )

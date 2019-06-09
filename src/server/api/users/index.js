@@ -78,6 +78,31 @@ router.get('/me1', (req, res) => {
     })
 })
 
+//Lista os dados da aulas relativo ao token. Rota 'api/users/me2'
+router.get('/me2', (req, res) => {
+  User.findById(req.user.id)
+    .then(user => {
+      res.send(user.aulas)
+    })
+    .catch(err => {
+      res.send(err)
+    })
+})
+
+//Lista os dados da aulas para alunos. Rota 'api/users/aulas/:disciplina'
+router.get('/aulas/:disciplina', (req, res) => {
+  User.find({
+    roles: { $all: ['professor'] },
+    disciplina: req.params.disciplina
+  })
+    .then(user => {
+      res.send(user)
+    })
+    .catch(err => {
+      res.send(err)
+    })
+})
+
 //Lista os dados do usuário relativo ao token. Rota 'api/users/me'
 router.get('/meP', (req, res) => {
   User.findById(req.user.id)
@@ -355,8 +380,41 @@ router.post('/monitoriaCad', hasRole('monitor'), (req, res) => {
     })
 })
 
-//Atualiza os dados de um usuário na rota 'api/users/'
-router.patch('/monitoriaEdit', (req, res) => {
+router.delete('/monitoriaDel', hasRole('monitor'), (req, res) => {
+  const { monitoria } = req.body
+  User.update(
+    { _id: req.user.id },
+    { $pull: { monitorias: monitoria } },
+    { safe: true, multi: true }
+  ).then(user => {
+    res.send(user)
+  })
+})
+
+router.post('/aulasCad', hasRole('professor'), (req, res) => {
+  const { aula } = req.body
+  User.updateOne({ _id: req.user.id }, { $push: { aulas: aula } })
+    .then(user => {
+      res.send(user)
+    })
+    .catch(err => {
+      res.send(err)
+    })
+})
+
+router.delete('/aulasDel', hasRole('professor'), (req, res) => {
+  const { aula } = req.body
+  User.update(
+    { _id: req.user.id },
+    { $pull: { aulas: aula } },
+    { safe: true, multi: true }
+  ).then(user => {
+    res.send(user)
+  })
+})
+
+//Atualiza os dados da monitoria na rota 'api/users/'
+/*router.patch('/monitoriaEdit', (req, res) => {
   User.update(
     { _id: req.user.id },
     {
@@ -365,7 +423,7 @@ router.patch('/monitoriaEdit', (req, res) => {
   ).then(user => {
     res.send(user)
   })
-})
+})*/
 
 router.delete('/', hasRole('csti'), (req, res) => {
   const { id } = req.body
@@ -436,7 +494,24 @@ router.get('/:id', hasRole('csti'), (req, res) => {
   })
 })
 
+router.get('/:id', hasRole('cotp'), (req, res) => {
+  User.find({ _id: req.params.id }).then(users => {
+    res.send(users[0])
+  })
+})
+
 router.patch('/:id', hasRole('csti'), (req, res) => {
+  User.update(
+    { _id: req.params.id },
+    {
+      $set: req.body
+    }
+  ).then(user => {
+    res.send(user)
+  })
+})
+
+router.patch('/:id', hasRole('cotp'), (req, res) => {
   User.update(
     { _id: req.params.id },
     {

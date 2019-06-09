@@ -31,6 +31,7 @@ const userSchema = new Schema({
   roles: [String],
   //monitorias: [monitoria],
   monitorias: [String],
+  aulas: [String],
   password: {
     type: String,
     required: true,

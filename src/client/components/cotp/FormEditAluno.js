@@ -19,7 +19,7 @@ class FormEditUser extends React.Component {
           form: {
             name: data.name,
             email: data.email,
-            disciplinas: data.disciplinas,
+            disciplina: data.disciplina,
             periodo: data.periodo,
             turno: data.turno,
             roles: data.roles
@@ -77,9 +77,10 @@ class FormEditUser extends React.Component {
           <label>Disciplinas</label>
           <input
             placeholder="Disciplinas..."
-            onChange={this.handleSetorChange}
+            //onChange={this.handleSetorChange}
+            required
             name="disciplina"
-            value={this.state.form.email || ''}
+            value={this.state.form.disciplina || ''}
             onChange={this.handleChange}
           />
         </Form.Field>
@@ -87,7 +88,9 @@ class FormEditUser extends React.Component {
           <label>Período</label>
           <input
             placeholder="Período..."
+            required
             name="periodo"
+            value={this.state.form.periodo}
             onChange={this.handleChange}
           />
         </Form.Field>
@@ -95,7 +98,9 @@ class FormEditUser extends React.Component {
           <label>Turno</label>
           <input
             placeholder="Turno..."
+            required
             name="turno"
+            value={this.state.form.turno}
             onChange={this.handleChange}
           />
         </Form.Field>
@@ -120,13 +125,26 @@ class FormEditUser extends React.Component {
               { key: 'dir', value: 'direcao', text: 'Direção' },
               { key: 'cotp', value: 'cotp', text: 'COTP' },
               { key: 'alu', value: 'aluno', text: 'Aluno' },
-              { key: 'prof', value: 'professor', text: 'Professor' }
+              { key: 'prof', value: 'professor', text: 'Professor' },
+              { key: 'moni', value: 'monitor', text: 'Monitor' }
             ]}
           />
         </Form.Field>
-        <Button type="submit" secondary fluid>
-          Atualizar aluno
-        </Button>
+        <div className="row">
+          <div className="col-md-6">
+            <Button
+              href="/cotp/orientacao_pedagogica/dependencias/alunos"
+              fluid
+            >
+              Cancelar
+            </Button>
+          </div>
+          <div className="col-md-6">
+            <Button type="submit" secondary fluid>
+              Atualizar aluno
+            </Button>
+          </div>
+        </div>
       </Form>
     )
   }

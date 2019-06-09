@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { Table, Button, Label, Icon } from 'semantic-ui-react'
 
-const TableListaDias = ({ users, deleteUser }) => (
+const TableListaDias = ({ monitorias, deletemonitoria }) => (
   <Table celled selectable striped singleLine attached striped basic="very">
     <Table.Header>
       <Table.Row>
@@ -12,23 +12,29 @@ const TableListaDias = ({ users, deleteUser }) => (
     </Table.Header>
 
     <Table.Body>
-      {users.map(user => {
+      {monitorias.map(monitoria => {
         return (
           <Table.Row>
-            <Table.Cell>{user}</Table.Cell>
+            <Table.Cell>{monitoria}</Table.Cell>
             <Table.Cell collapsing>
-              <Button.Group size="tiny">
-                <Link href={'?user=' + user._id}>
-                  <Button color="grey" size="tiny" compact content="Editar" />
-                </Link>
-                <Button.Or text="ou" />
-                <Button
-                  compact
-                  onClick={() => deleteUser(user._id, user.name)}
-                  content="Deletar"
-                  color="red"
+              {/*<Button.Group size="tiny" >
+                <Button 
+                  color="grey" 
+                  size="tiny" 
+                  content="Editar" 
+                  onClick={() => editmonitoria(monitoria)}
                 />
-              </Button.Group>
+                {/*<Link href={'?monitoria=' + monitoria._id}>
+                  <Button color="grey" size="tiny" compact content="Editar" />
+                  </Link>
+        <Button.Or text="ou" />*/}
+              <Button
+                compact
+                onClick={() => deletemonitoria(monitoria)}
+                content="Deletar"
+                color="red"
+              />
+              {/*</Button.Group>*/}
             </Table.Cell>
           </Table.Row>
         )

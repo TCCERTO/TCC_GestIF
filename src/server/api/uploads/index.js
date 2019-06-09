@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import hasRole from '../middlewares/hasRole'
 import { connection } from 'mongoose'
+import Log from '../../utils/LogService'
 
 const GridFsStorage = require('multer-gridfs-storage')
 const Grid = require('gridfs-stream')
@@ -24,18 +25,37 @@ conn.once('open', () => {
   gfs.collection('uploads')
 })
 
+var roles
+var disciplina
+var name
+
+router.get('/me/:disciplina/:roles/:name', (req, res) => {
+  roles = req.params.roles
+  disciplina = req.params.disciplina
+  name = req.params.name
+})
+
+router.get('/pae', (req, res) => {
+  roles = 'pae'
+  disciplina = ''
+  name = ''
+})
+
 const storage = new GridFsStorage({
   url: uri,
   file: (req, file) => {
     return new Promise((resolve, reject) => {
-      crypto.randomBytes(16, (err, buf) => {
+      crypto.randomBytes(4, (err, buf) => {
         if (err) {
           return reject(err)
         }
         const filename =
-          file.originalname +
+          roles +
+          disciplina +
+          name +
+          buf.toString('hex') +
           '-' +
-          buf.toString('hex') /*+ path.extname(file.originalname);*/
+          file.originalname /*+ path.extname(file.originalname);*/
         const fileInfo = {
           filename: filename,
           bucketName: 'uploads'
@@ -80,6 +100,30 @@ router.get('/', (req, res) => {
   })
 })
 
+// mostra os uploads para alunos
+router.get('/a/a/:disciplina', (req, res) => {
+  gfs.files
+    .find({ filename: { $regex: '.*' + req.params.disciplina + '.*' } })
+    .toArray((err, files) => {
+      res.send(files)
+    })
+})
+
+// mostra os uploads de monitores e professores
+router.get('/m/p/:disciplina/:roles/:name', (req, res) => {
+  gfs.files
+    .find({
+      filename: {
+        $regex: '.*' + req.params.disciplina + '.*',
+        $regex: '.*' + req.params.roles + '.*',
+        $regex: '.*' + req.params.name + '.*'
+      }
+    })
+    .toArray((err, files) => {
+      res.send(files)
+    })
+})
+
 // mostra os uploads também :/
 router.get('/files', (req, res) => {
   gfs.files.find().toArray((err, files) => {
@@ -89,6 +133,34 @@ router.get('/files', (req, res) => {
       })
     }
     return res.json(files)
+  })
+})
+
+// mostra os uploads de professores
+router.get('/profs', (req, res) => {
+  gfs.files.find({ filename: /professor/ }).toArray((err, files) => {
+    res.send(files)
+  })
+})
+
+// mostra os uploads do pae
+router.get('/paeU', (req, res) => {
+  gfs.files.find({ filename: /pae/ }).toArray((err, files) => {
+    res.send(files)
+  })
+})
+
+// mostra os uploads de monitores
+router.get('/monitores', (req, res) => {
+  gfs.files.find({ filename: /monitor/ }).toArray((err, files) => {
+    res.send(files)
+  })
+})
+
+// mostra os uploads de monitores
+router.get('/listas', (req, res) => {
+  gfs.files.find({ filename: /monitor/ }).toArray((err, files) => {
+    res.send(files)
   })
 })
 
@@ -105,17 +177,25 @@ router.get('/:filename', (req, res) => {
   })
 })
 
-// /images/:filename não funciona
-/*router.get('/:filename', (req,res) =>{    
-  gfs.files.findOne({filename: req.params.filename}, (err, file) =>{
-    if(!file || file.length === 0){
+// mostra o arquivo no navegador para alunos. Rota /api/uploads/:filename
+router.get('/:username/alunos/:filename', (req, res) => {
+  gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+    if (!file || file.length === 0) {
       return res.status(404).json({
         err: 'Esse arquivo não existe!'
       })
     }
-    return res.json(file)
-  }) 
-})*/
+    const readstream = gfs.createReadStream(file.filename)
+    readstream.pipe(res)
+    Log(
+      'ATIVIDADE',
+      req.params.username + ' acessou a atividade ' + file.filename,
+      'aluno',
+      req.params.username,
+      'rgb(77, 77, 255)'
+    )
+  })
+})
 
 // faz o download
 router.get('/downloads/:filename', async (req, res) => {
@@ -143,12 +223,47 @@ router.get('/downloads/:filename', async (req, res) => {
     })
 })
 
-// apaga o arquivo
-router.delete('/delete/:filename', (req, res) => {
-  gfs.collection('uploads')
+// faz o download para alunos
+router.get('/downloads/aluno/a/:username/:filename', async (req, res) => {
+  gfs.collection('uploads') //set collection name to lookup into
 
-  gfs.files.delete(req.params.filename).catch(err => {
-    res.send('err')
+  /** First check if file exists */
+  gfs.files
+    .find({ filename: req.params.filename })
+    .toArray(function(err, files) {
+      if (!files || files.length === 0) {
+        return res.status(404).json({
+          responseCode: 1,
+          responseMessage: 'error'
+        })
+      }
+      // create read stream
+      var readstream = gfs.createReadStream({
+        filename: files[0].filename,
+        root: ''
+      })
+      // set the proper content type
+      res.set('Content-Type', 'application/octet-stream')
+      Log(
+        'ATIVIDADE',
+        req.params.username +
+          ' fez download da atividade ' +
+          req.params.filename,
+        'aluno',
+        req.params.username,
+        'rgb(77, 77, 255)'
+      )
+      // Return response
+      return readstream.pipe(res)
+    })
+})
+
+// apaga o arquivo
+router.delete('/delete', (req, res) => {
+  gfs.collection('uploads')
+  const { id } = req.body
+  gfs.remove({ _id: id, root: 'uploads' }).then(a => {
+    res.send('Arquivo deletado')
   })
 })
 
