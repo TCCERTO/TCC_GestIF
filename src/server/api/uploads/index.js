@@ -85,13 +85,12 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 // faz o upload
-router.post(
-  '/upload',
-  /*hasRole('professor'),*/ upload.single('file'),
-  (req, res, next) => {
-    res.send(req.file)
-  }
-)
+router.post('/upload', upload.single('file'), (req, res, next) => {
+  //res.send(req.file)
+  res.statusCode = 302
+  res.setHeader('Location', '../../')
+  res.end()
+})
 
 // mostra os uploads
 router.get('/', (req, res) => {

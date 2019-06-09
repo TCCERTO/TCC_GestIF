@@ -18,7 +18,8 @@ const reservasSchema = new Schema({
     type: String,
     required: true
   },
-  data: { type: Date, default: Date.now }
+  data: { type: Date, default: Date.now },
+  dataAplicada: { type: Date }
 })
 
 export default mongoose.model('Reserva', reservasSchema)
